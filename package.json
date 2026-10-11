@@ -1,0 +1,16 @@
+{
+  "name": "ccpc-new-standings",
+  "version": "1.1.1",
+  "private": true,
+  "description": "Chrome extension for the CCPC standings display on QOJ",
+  "scripts": {
+    "test": "node --test tests/engine.test.cjs",
+    "test:browser": "node tests/browser.test.cjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

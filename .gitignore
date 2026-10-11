@@ -1,0 +1,7 @@
+node_modules/
+tmp/
+output/*
+!output/qoj-ccpc.zip
+*.log
+.env
+.env.*

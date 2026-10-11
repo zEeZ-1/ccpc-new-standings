@@ -1,0 +1,26 @@
+#qoj-ccpc-panel { font: 14px/1.5 system-ui, sans-serif; margin: 18px 0; color: #223047; }
+#qoj-ccpc-panel * { box-sizing: border-box; }
+#qoj-ccpc-panel .ccpc-toolbar { padding: 16px; border: 1px solid #cbd7e7; border-radius: 10px; background: #f6f9ff; }
+#qoj-ccpc-panel h3 { font-size: 18px; margin: 0 0 10px; }
+#qoj-ccpc-panel .ccpc-controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: end; }
+#qoj-ccpc-panel label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; margin: 0; }
+#qoj-ccpc-panel input, #qoj-ccpc-panel select, #qoj-ccpc-panel button { font: inherit; padding: 6px 8px; border: 1px solid #b7c6d9; border-radius: 5px; background: white; color: #223047; }
+#qoj-ccpc-panel .ccpc-check { flex-direction: row; align-items: center; padding-bottom: 6px; }
+#qoj-ccpc-panel .ccpc-status { margin: 10px 0 0; color: #52647c; }
+#qoj-ccpc-panel .ccpc-error { color: #a52d2d; }
+#qoj-ccpc-panel .ccpc-table-wrap { overflow: auto; margin-top: 12px; }
+#qoj-ccpc-panel table { border-collapse: collapse; width: 100%; font-size: 13px; white-space: nowrap; }
+#qoj-ccpc-panel th, #qoj-ccpc-panel td { padding: 8px; border: 1px solid #d9e2ee; text-align: center; }
+#qoj-ccpc-panel th { background: #edf3fa; }
+#qoj-ccpc-panel .ccpc-team { text-align: left; white-space: normal; min-width: 170px; max-width: 320px; }
+#qoj-ccpc-panel .ccpc-team small { display: block; color: #66778d; }
+#qoj-ccpc-panel .ccpc-cell { min-width: 62px; font-variant-numeric: tabular-nums; }
+#qoj-ccpc-panel .ccpc-ac { background: #e7f5eb; }
+#qoj-ccpc-panel .ccpc-wa { color: #b44343; }
+#qoj-ccpc-panel .ccpc-pending { color: #2765bf; }
+#qoj-ccpc-panel .ccpc-revealed { border-bottom: 3px solid #7c9cc7; }
+#qoj-ccpc-panel .ccpc-self td { box-shadow: inset 0 2px #e7bb42, inset 0 -2px #e7bb42; }
+#qoj-ccpc-panel .ccpc-pager { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+#qoj-ccpc-panel button { cursor: pointer; }
+#qoj-ccpc-panel button:disabled { opacity: .5; cursor: default; }
+#qoj-ccpc-panel [hidden] { display: none !important; }
