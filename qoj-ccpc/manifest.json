@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "QOJ · CCPC 新榜单",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "按 CCPC 2026 新榜单模式隐藏题号，并为每支队伍重新排列解题情况。",
   "minimum_chrome_version": "111",
   "permissions": ["storage"],

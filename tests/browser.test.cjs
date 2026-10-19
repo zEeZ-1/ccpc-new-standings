@@ -4,8 +4,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require(process.env.CCPC_PLAYWRIGHT_PATH || 'playwright');
 const dir = path.resolve(__dirname, '../qoj-ccpc');
+const channel = process.argv[2] || 'chrome';
+if (!['chrome', 'msedge'].includes(channel)) throw new Error('Browser must be chrome or msedge');
 async function main() {
-  const browser = await chromium.launch({ headless:true, ...(process.env.CCPC_CHROME_PATH ? {executablePath:process.env.CCPC_CHROME_PATH} : {channel:'chrome'}) });
+  const browser = await chromium.launch({ headless:true, ...(process.env.CCPC_CHROME_PATH ? {executablePath:process.env.CCPC_CHROME_PATH} : {channel}) });
   try {
     const page = await browser.newPage({viewport:{width:1440,height:900}});
     const errors = []; page.on('pageerror', e => errors.push(e.message));
@@ -25,7 +27,8 @@ async function main() {
     const session = await page.context().newCDPSession(page);
     const {frameTree} = await session.send('Page.getFrameTree');
     const {executionContextId} = await session.send('Page.createIsolatedWorld', {frameId:frameTree.frame.id,worldName:'qoj-ccpc-test'});
-    await session.send('Runtime.evaluate', {contextId:executionContextId,expression:'globalThis.chrome={storage:{local:{get:async(key)=>({[key]:{mode:"auto",threshold:"fixed",start:"2000-01-01T00:00",teamCount:9999,countUnofficial:false}}),set:async()=>{}}}}'});
+    const namespace = channel === 'msedge' ? 'browser' : 'chrome';
+    await session.send('Runtime.evaluate', {contextId:executionContextId,expression:`globalThis.${namespace}={storage:{local:{get:async(key)=>({[key]:{mode:"auto",threshold:"fixed",start:"2000-01-01T00:00",teamCount:9999,countUnofficial:false}}),set:async()=>{}}}}`});
     for (const name of ['engine.js','content.js']) {
       const result = await session.send('Runtime.evaluate', {contextId:executionContextId,expression:fs.readFileSync(path.join(dir,name),'utf8')});
       assert.equal(result.exceptionDetails, undefined);
@@ -88,9 +91,9 @@ async function main() {
     await page.evaluate(()=>{score.team0[0][1]=900; document.dispatchEvent(new Event('qoj-ccpc-request'));});
     await panel.locator('table').waitFor();
     fs.mkdirSync(path.resolve(__dirname,'../output'),{recursive:true});
-    await page.screenshot({path:path.resolve(__dirname,'../output/preview.png'),fullPage:false});
+    await page.screenshot({path:path.resolve(__dirname,`../output/preview-${channel}.png`),fullPage:false});
     assert.deepEqual(errors,[]);
-    console.log('PASS: browser integration — simple toggle / current snapshot / MAIN-isolated bridge / anonymous order / links / pagination / automatic updates / freeze boundary / already frozen / VP clock priority / missing clock / recovery');
+    console.log(`PASS (${channel}, ${namespace} storage API): simple toggle / current snapshot / MAIN-isolated bridge / anonymous order / links / pagination / automatic updates / freeze boundary / already frozen / VP clock priority / missing clock / recovery`);
   } finally { await browser.close(); }
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});

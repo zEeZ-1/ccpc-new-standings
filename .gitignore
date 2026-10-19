@@ -2,6 +2,8 @@ node_modules/
 tmp/
 output/*
 !output/qoj-ccpc.zip
+!output/qoj-ccpc-firefox.zip
+__pycache__/
 *.log
 .env
 .env.*

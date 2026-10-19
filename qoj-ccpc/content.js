@@ -2,6 +2,7 @@
   "use strict";
   if (!/^\/contest\/\d+\/standings(?:\/external)?\/?$/.test(location.pathname)) return;
   const engine = globalThis.QojCcpcEngine;
+  const storage = (globalThis.browser ?? globalThis.chrome).storage.local;
   const key = `qoj-ccpc:${location.hostname}:${location.pathname.match(/\d+/)[0]}`;
   let enabled = true, model, snapshot, page = 1, query = "", lastSnapshot, error = "";
   let panel, original, tableWrap, status, pager, toggle;
@@ -26,7 +27,7 @@
     label.append(toggle, el("span", "启用新模式")); group.append(label);
     toggle.addEventListener("change", () => {
       enabled = toggle.checked; page = 1; render();
-      chrome.storage.local.set({ [key]: { enabled } }).catch(() => {});
+      storage.set({ [key]: { enabled } }).catch(() => {});
     });
     const search = el("input"); search.type = "search"; search.placeholder = "搜索队伍"; search.setAttribute("aria-label", "搜索队伍");
     search.addEventListener("input", () => { query = search.value; page = 1; render(); }); group.append(search);
@@ -110,7 +111,7 @@
     catch (e) { model = undefined; error = e.message; }
     render();
   });
-  chrome.storage.local.get(key).then(data => {
+  storage.get(key).then(data => {
     const saved = data[key];
     enabled = typeof saved?.enabled === "boolean" ? saved.enabled : saved?.mode !== "original";
     if (toggle) toggle.checked = enabled;
